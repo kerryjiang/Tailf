@@ -51,7 +51,7 @@ namespace Tailf
                 lineFilterRegex = new Regex(LineFilter);
 
             if (!string.IsNullOrEmpty(LevelRegex))
-                levelRegex = new Regex(LevelRegex, RegexOptions.Compiled);
+                levelRegex = new Regex(LevelRegex, RegexOptions.Compiled | RegexOptions.Multiline);
 
             if (!File.Exists(path))
             {
@@ -197,7 +197,7 @@ namespace Tailf
 
             var match = levelRegex.Match(l);
 
-            if (null == match)
+            if (null == match || !match.Success)
             {
                 Changed(this, new TailEventArgs() { Line = l, Level = currentLevel });
                 return;
