@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tailf", "Tailf\Tailf.csproj", "{2F88847E-0A38-433A-A869-90D2447D92D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTailF", "TestTailF\TestTailF.csproj", "{EA1AD7A9-3739-4921-AA4A-03FF6FDC5FD2}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Tailf\\Tailf.csproj
+		SccProjectName1 = Tailf
+		SccLocalPath1 = Tailf
+		SccProjectUniqueName2 = TestTailF\\TestTailF.csproj
+		SccProjectName2 = TestTailF
+		SccLocalPath2 = TestTailF
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F88847E-0A38-433A-A869-90D2447D92D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F88847E-0A38-433A-A869-90D2447D92D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F88847E-0A38-433A-A869-90D2447D92D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F88847E-0A38-433A-A869-90D2447D92D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA1AD7A9-3739-4921-AA4A-03FF6FDC5FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA1AD7A9-3739-4921-AA4A-03FF6FDC5FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA1AD7A9-3739-4921-AA4A-03FF6FDC5FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA1AD7A9-3739-4921-AA4A-03FF6FDC5FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
