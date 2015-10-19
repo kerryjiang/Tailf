@@ -11,8 +11,14 @@ namespace Tailf
     class Tail
     {
         ManualResetEvent me;
+
+        const string defaultLevel = "INFO";
+
+        string currentLevel = defaultLevel;
+
         public class TailEventArgs : EventArgs
         {
+            public string Level { get; set; }
             public string Line { get; set; }
         }
        
@@ -21,7 +27,11 @@ namespace Tailf
         string path;
         int nLines;
         public string LineFilter { get; set; }
+
+        public string LevelRegex { get; set; }
+
         Regex lineFilterRegex;
+        Regex levelRegex;
         public Tail(string path,int nLines)
         {
             this.path = path;
@@ -39,6 +49,10 @@ namespace Tailf
         {
             if (!string.IsNullOrEmpty(LineFilter))
                 lineFilterRegex = new Regex(LineFilter);
+
+            if (!string.IsNullOrEmpty(LevelRegex))
+                levelRegex = new Regex(LevelRegex, RegexOptions.Compiled);
+
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException("File does not exist:"+path);
@@ -103,6 +117,7 @@ namespace Tailf
                                             if (current.Length > 0)
                                             {
                                                 string line = string.Concat(previous, current);
+
                                                 if (lineFilterRegex.IsMatch(line))
                                                 {
                                                     OnChanged(string.Concat(line, Environment.NewLine));
@@ -152,8 +167,12 @@ namespace Tailf
                     }
                 }
             }
+
             foreach (var l in lines)
+            {
                 OnChanged(l);
+            }
+            
         }
 
         private static void EnqueueLine(int nLines, List<string> lines, string line)
@@ -167,8 +186,26 @@ namespace Tailf
 
         private void OnChanged(string l)
         {
-            if (null != Changed)
-                Changed(this,new TailEventArgs(){ Line=l});
+            if (null == Changed)
+                return;
+
+            if (null == levelRegex)
+            {
+                Changed(this, new TailEventArgs() { Line = l, Level = currentLevel });
+                return;
+            }
+
+            var match = levelRegex.Match(l);
+
+            if (null == match)
+            {
+                Changed(this, new TailEventArgs() { Line = l, Level = currentLevel });
+                return;
+            }
+
+            currentLevel = match.Groups["level"].Value;
+
+            Changed(this, new TailEventArgs() { Line = l, Level = currentLevel });
         }
     }
 }

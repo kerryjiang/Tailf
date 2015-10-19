@@ -8,6 +8,11 @@ namespace Tailf
     class Program
     {
         private const short DefaultLines = 5;
+
+        private static Dictionary<string, ConsoleColor> colorMappingDict;
+
+        private static ConsoleColor? prevColor;
+
         static void Main(string[] args)
         {
             TailfParameters prms = new TailfParameters(args);
@@ -26,7 +31,20 @@ namespace Tailf
                 int.TryParse(prms.NOfLines, out n);
                 if (n == 0)
                     n = DefaultLines;
+
+                if(!string.IsNullOrEmpty(prms.ColorMap))
+                {
+                    colorMappingDict = prms.ColorMap.Split("};,".ToArray(), StringSplitOptions.RemoveEmptyEntries)
+                        .Select(m =>
+                        {
+                            var arr = m.Split("=".ToArray(), 2);
+                            return new KeyValuePair<string, ConsoleColor>(arr[0], (ConsoleColor)Enum.Parse(typeof(ConsoleColor), arr[1]));
+                        })
+                        .ToDictionary(p => p.Key, p => p.Value, StringComparer.OrdinalIgnoreCase);
+                }
+
                 Tail tail = new Tail(prms.FileNames.First(), n);
+                tail.LevelRegex = prms.LevelRegex;
                 tail.LineFilter = prms.Filter;
                 tail.Changed += new EventHandler<Tail.TailEventArgs>(tail_Changed);
                 tail.Run();
@@ -47,6 +65,23 @@ namespace Tailf
 
         static void tail_Changed(object sender, Tail.TailEventArgs e)
         {
+            if(colorMappingDict != null)
+            {
+                ConsoleColor color;
+
+                if(!colorMappingDict.TryGetValue(e.Level, out color))
+                {
+                    if (prevColor.HasValue)
+                        Console.ResetColor();
+                }
+
+                if(!prevColor.HasValue || prevColor.Value != color)
+                {
+                    Console.ForegroundColor = color;
+                    prevColor = color;
+                }
+            }
+
             Console.Write(e.Line);
         }
     }
