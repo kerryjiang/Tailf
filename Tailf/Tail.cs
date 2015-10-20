@@ -92,12 +92,15 @@ namespace Tailf
                         stream.Seek(prevLen, SeekOrigin.Begin);
                         if (string.IsNullOrEmpty(LineFilter))
                         {
-                            string line;
                             using (StreamReader sr = new StreamReader(stream))
                             {
-                                line = sr.ReadToEnd();
-                                if (!string.IsNullOrEmpty(line))
-                                    OnChanged(line);
+                                var all = sr.ReadToEnd();
+                                var lines = all.Split('\n');
+
+                                foreach(var line in lines)
+                                {
+                                    OnChanged(line.TrimEnd('\r') + Environment.NewLine);
+                                }
                             }
                         }
                         else

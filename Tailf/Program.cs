@@ -72,14 +72,17 @@ namespace Tailf
                 if(!colorMappingDict.TryGetValue(e.Level, out color))
                 {
                     if (prevColor.HasValue)
+                    {
+                        prevColor = null;
                         Console.ResetColor();
+                    }  
                 }
-
-                if(!prevColor.HasValue || prevColor.Value != color)
+                else if(!prevColor.HasValue || prevColor.Value != color)
                 {
                     Console.ForegroundColor = color;
                     prevColor = color;
                 }
+                
             }
 
             Console.Write(e.Line);
