@@ -97,9 +97,16 @@ namespace Tailf
                                 var all = sr.ReadToEnd();
                                 var lines = all.Split('\n');
 
-                                foreach(var line in lines)
+                                var lastIndex = lines.Length - 1;
+
+                                for (var i = 0; i < lines.Length; i++)
                                 {
-                                    OnChanged(line.TrimEnd('\r') + Environment.NewLine);
+                                    var line = lines[i].TrimEnd('\r');
+
+                                    if(i != lastIndex)
+                                        OnChanged(line + Environment.NewLine);
+                                    else
+                                        OnChanged(line);
                                 }
                             }
                         }
