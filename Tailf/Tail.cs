@@ -127,6 +127,7 @@ namespace Tailf
                                             if (current.Length > 0)
                                             {
                                                 string line = string.Concat(previous, current);
+                                                previous = "";
 
                                                 if (lineFilterRegex.IsMatch(line))
                                                 {
